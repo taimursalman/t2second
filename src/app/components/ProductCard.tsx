@@ -1,9 +1,10 @@
 import React from 'react'
+import AddToCartButton from './AddToCartButton'
 
 const ProductCard = () => {
   return (
     <div>
-        <button onClick={() => console.log('ProductCard clicked!')}>Add to Cart </button>
+        <AddToCartButton />
     </div>
   )
 }
