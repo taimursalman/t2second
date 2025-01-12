@@ -1,5 +1,4 @@
 import React from 'react'
-import ProductCard from '../components/ProductCard'
 
 interface User {
     id: number;
@@ -7,6 +6,9 @@ interface User {
 }
 
 const UserPage = async () => {
+
+    // TODO Taimur Salman: So basically here, if i disable cache then it'll be treated as a CSR, but if i use something like revalidate, it'll be SSR
+    
 
     const response = await fetch('https://jsonplaceholder.typicode.com/users',
         {
