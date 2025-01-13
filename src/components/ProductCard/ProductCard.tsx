@@ -1,9 +1,10 @@
 import React from 'react'
-import AddToCartButton from './AddToCartButton'
+import AddToCartButton from '../AddToCartButton'
+import styles from './ProductCard.module.css';
 
 const ProductCard = () => {
   return (
-    <div>
+    <div className={styles.card}>
         <AddToCartButton />
     </div>
   )
