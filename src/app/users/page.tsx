@@ -32,4 +32,4 @@ const UserPage = async () => {
     )
 }
 
-export default UserPage;  
+export default UserPage;    
