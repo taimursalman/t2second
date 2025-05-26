@@ -30,7 +30,6 @@
 
 #           # you can also set tags, custom-fields, due dates, etc.
 
-
 name: Create Asana Task on PR
 
 on:
@@ -51,9 +50,8 @@ jobs:
             "data": {
               "name": "Review PR: ${{ github.event.pull_request.title }}",
               "notes": "Pull Request: ${{ github.event.pull_request.html_url }}\nAuthor: ${{ github.event.pull_request.user.login }}\nBranch: ${{ github.event.pull_request.head.ref }} → ${{ github.event.pull_request.base.ref }}\n\nDescription:\n${{ github.event.pull_request.body }}",
-              "projects": ["1210376775330692"],
-              "due_on": "${{ github.event.pull_request.created_at | date('Y-m-d') }}"
+              "projects": ["1210376775330692"]
             }
           }'
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+# "due_on": "${{ github.event.pull_request.created_at | date('Y-m-d') }}"
