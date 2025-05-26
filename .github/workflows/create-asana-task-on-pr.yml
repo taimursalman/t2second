@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Create Asana Task
-        uses: asana/github-action@v1
+        uses: everphone-gmbh/github-asana-action@c4d0c3a
         with:
           # must match your GitHub secret
           personal-access-token: ${{ secrets.TEST_ASANA_PR }}
