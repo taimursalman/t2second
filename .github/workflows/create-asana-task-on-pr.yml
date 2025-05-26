@@ -1,0 +1,30 @@
+name: Create Asana Task on PR
+
+on:
+  pull_request:
+    types: [opened]
+
+jobs:
+  asana:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create Asana Task
+        uses: asana/github-action@v1
+        with:
+          # must match your GitHub secret
+          personal-access-token: ${{ secrets.ASANA_TOKEN }}
+
+          # from step 2
+          workspace-id: '123456789012345'
+          project-id:   '987654321098765'
+
+          # optional: assign to someone in Asana
+          # assignee-id: '1122334455667788'
+
+          name: |
+            PR: ${{ github.event.pull_request.title }}
+          notes: |
+            🔗 URL: ${{ github.event.pull_request.html_url }}
+            👤 by: ${{ github.event.pull_request.user.login }}
+
+          # you can also set tags, custom-fields, due dates, etc.
