@@ -1,3 +1,36 @@
+# name: Create Asana Task on PR
+
+# on:
+#   pull_request:
+#     types: [opened]
+
+# jobs:
+#   asana:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Create Asana Task
+#         uses: everphone-gmbh/github-asana-action@c4d0c3a
+#         with:
+#           # must match your GitHub secret
+#           personal-access-token: ${{ secrets.TEST_ASANA_PR }}
+
+#           # from step 2
+#           workspace-id: '123456789012345'
+#           project-id:   '987654321098765'
+#           assignee-id: '1204646733913360'
+
+#           # optional: assign to someone in Asana
+#           # assignee-id: '1122334455667788'
+
+#           name: |
+#             PR: ${{ github.event.pull_request.title }}
+#           notes: |
+#             🔗 URL: ${{ github.event.pull_request.html_url }}
+#             👤 by: ${{ github.event.pull_request.user.login }}
+
+#           # you can also set tags, custom-fields, due dates, etc.
+
+
 name: Create Asana Task on PR
 
 on:
@@ -5,27 +38,22 @@ on:
     types: [opened]
 
 jobs:
-  asana:
+  create-asana-task:
     runs-on: ubuntu-latest
+    
     steps:
-      - name: Create Asana Task
-        uses: everphone-gmbh/github-asana-action@c4d0c3a
-        with:
-          # must match your GitHub secret
-          personal-access-token: ${{ secrets.TEST_ASANA_PR }}
-
-          # from step 2
-          workspace-id: '123456789012345'
-          project-id:   '987654321098765'
-          assignee-id: '1204646733913360'
-
-          # optional: assign to someone in Asana
-          # assignee-id: '1122334455667788'
-
-          name: |
-            PR: ${{ github.event.pull_request.title }}
-          notes: |
-            🔗 URL: ${{ github.event.pull_request.html_url }}
-            👤 by: ${{ github.event.pull_request.user.login }}
-
-          # you can also set tags, custom-fields, due dates, etc.
+    - name: Create Asana Task
+      run: |
+        curl -X POST https://app.asana.com/api/1.0/tasks \
+          -H "Authorization: Bearer ${{ secrets.ASANA_ACCESS_TOKEN }}" \
+          -H "Content-Type: application/json" \
+          -d '{
+            "data": {
+              "name": "Review PR: ${{ github.event.pull_request.title }}",
+              "notes": "Pull Request: ${{ github.event.pull_request.html_url }}\nAuthor: ${{ github.event.pull_request.user.login }}\nBranch: ${{ github.event.pull_request.head.ref }} → ${{ github.event.pull_request.base.ref }}\n\nDescription:\n${{ github.event.pull_request.body }}",
+              "projects": ["${{ secrets.ASANA_PROJECT_GID }}"],
+              "due_on": "${{ github.event.pull_request.created_at | date('Y-m-d') }}"
+            }
+          }'
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
